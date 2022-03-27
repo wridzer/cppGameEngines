@@ -1,31 +1,47 @@
 #include "Enemy.h"
 
-Enemy::Enemy(int windowW) {
-    wW = windowW;
-    position = new ::Vector2(posX, posY);
+void Enemy::_register_methods(){
+    register_method("_process", &Enemy::_process);
+    register_method("move", &Enemy::Move);
+    register_property<Enemy, float>("moveSpeed", &Enemy::moveSpeed, 5);
+    register_property<Enemy, float>("fallSpeed", &Enemy::fallSpeed, 5);
+}
+
+Enemy::Enemy() {
+
 }
 
 Enemy::~Enemy() {
 
 }
 
-void Enemy::Move(float dt) {
+void Enemy::_init(){
+    position = Vector2(posX, posY);
+}
+
+void Enemy::_process(float delta){
+    Move(delta);
+    // Vector2* move = new Vector2(moveSpeed * delta, fallSpeed * delta);
+    // position = position + *move;
+    set_position(position);
+    std::cout << position.x << ", " << position.y << std::endl;
+    
+}
+
+void Enemy::Move(float delta) {
     float accelerationX = 0;
     float accelerationY = 0;
-    if (fallSpeed <= minSpeed)
-    {
-        fallSpeed = rand() % 50;
-    }
-    if (moveSpeed == 0)
-    {
-        moveSpeed = rand() % 50;
-    }
-    accelerationX += moveSpeed * dt;
-    accelerationY += fallSpeed * dt;
-    velocityX = (1/frictionCoef) * (std::pow(2.71828,-frictionCoef/mass*dt))*(frictionCoef*velocityX+mass*accelerationX)-(mass*accelerationX/frictionCoef);
-    velocityY = (1/frictionCoef) * (std::pow(2.71828,-frictionCoef/mass*dt))*(frictionCoef*velocityY+mass*accelerationY)-(mass*accelerationY/frictionCoef);
-    ::Vector2* move = new ::Vector2(velocityX,-velocityY);
-    *position = *position + *move;
+
+    accelerationX += moveSpeed * delta;
+    accelerationY += fallSpeed * delta;
+
+    velocityX = (1/frictionCoef) * (std::pow(2.71828f,-frictionCoef/mass*delta))*(frictionCoef*velocityX+mass*accelerationX)-(mass*accelerationX/frictionCoef);
+    velocityY = (1/frictionCoef) * (std::pow(2.71828f,-frictionCoef/mass*delta))*(frictionCoef*velocityY+mass*accelerationY)-(mass*accelerationY/frictionCoef);
+
+    Vector2* move = new Vector2(velocityX, -velocityY); 
+    std::cout << velocityX << ", " << -velocityY << std::endl;
+    position = position + *move;
+    
     BorderCheck();
 }
 
@@ -38,12 +54,12 @@ void Enemy::Move(float dt) {
 }*/
 
 void Enemy::BorderCheck() {
-    if (position->GetX() > wW)
+    if (position.x > canvasWidth)
     {
         velocityX = velocityX *-1;
         moveSpeed = moveSpeed *-1;
     }
-    if (position->GetX() < 0.f)
+    if (position.x < 0.f)
     {
         velocityX = velocityX *-1;
         moveSpeed = moveSpeed *-1;

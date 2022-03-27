@@ -109,8 +109,8 @@ Default(library)
 # Generates help for the -h scons option.
 Help(opts.GenerateHelpText(env))
 
-
 # Generates .gdns files  
+print("Started generating GDNS files")
 files = os.listdir("src")
 
 gdnsContents = """[gd_resource type="NativeScript" load_steps=2 format=2]
@@ -144,6 +144,8 @@ for filename in files:
     f.close()
 
 # Updates gdlibrary.cpp
+print("Started updating gdlibrary.cpp file")
+
 libraryString = ""
 
 for filename in files:
@@ -185,6 +187,3 @@ libraryString += "}"
 l = open("src\\gdlibrary.cpp","w+")
 l.write(libraryString)
 l.close()
-
-
-

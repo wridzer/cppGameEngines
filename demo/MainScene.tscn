@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://testicon.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=3]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Node2D" parent="." instance=ExtResource( 1 )]
-position = Vector2( -1, -1 )
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 529, 571 )
+
+[node name="Enemy" parent="." instance=ExtResource( 3 )]
+position = Vector2( 508, 9 )
+moveSpeed = 1.0
+fallSpeed = 1.0
