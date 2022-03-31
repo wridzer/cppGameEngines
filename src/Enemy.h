@@ -1,9 +1,13 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+#include "GameManager.h"
 #include <iostream>
 #include <Godot.hpp>
+#include <Sprite.hpp>
+#include <Texture.hpp>
 #include <Control.hpp>
-#include <RigidBody2D.hpp>
+#include <Viewport.hpp>
+#include <RandomNumberGenerator.hpp>
 
 using namespace godot;
 
@@ -13,24 +17,34 @@ class Enemy : public Node2D {
 public:
     Enemy();
     ~Enemy();
+    Enemy(const Enemy& other);
     void Move(float delta);
     void BorderCheck();
+    void RandomizeStart();
+
+    static void _register_methods();
+    void _init();
+
+    void _ready();
+    void _process(float delta);
+    void _physics_process(float delta);
+
+private:
     Vector2 position;
     float velocityX;
     float velocityY;
-    float frictionCoef = 1;
-    float mass = 1;
-    static void _register_methods();
-    void _process(float delta);
-    void _init();
+    float frictionCoef = 0.6f;
+    float mass = 1.0f;
+    float moveSpeed = 0.0f;
+    float fallSpeed = 0.0f;
+    float maxMoveSpeed = 25.0f;
+    float minFallSpeed = 5.0f;
+    float maxFallSpeed = 25.0f;
+    float bottomOffset = 25.0f;
+    float minSpeed = 0.1f;
+    RandomNumberGenerator* random;
 
-private:
-    float posX = 550;
-    float posY = -10;
-    float moveSpeed = 0.005f;
-    float fallSpeed = 0.003f;
-    float minSpeed = 0.000001f;
-    float canvasWidth = 1020;
+    bool firstFrame = true;
 };
 
 #endif
