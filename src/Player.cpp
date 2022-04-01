@@ -28,8 +28,8 @@ void Player::_ready(){
     position = get_position();
 }
 
-void Player::area_entered(Area2D *area){
-    emit_signal("hit", area);
+void Player::area_entered(Area2D *body){
+    emit_signal("hit", body);
 }
 
 void Player::_process(float delta){
@@ -39,8 +39,6 @@ void Player::_process(float delta){
 void Player::_physics_process(float delta){
     input = Input::get_singleton();
     Move(delta);
-
-
 }
 
 void Player::Move(float delta){

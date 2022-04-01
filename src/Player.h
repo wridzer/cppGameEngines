@@ -6,6 +6,7 @@
 #include <Viewport.hpp>
 #include <Input.hpp>
 #include <Area2D.hpp>
+#include <Variant.hpp>
 
 using namespace godot;
 
@@ -22,7 +23,7 @@ public:
     void _ready();
     void _process(float delta);
     void _physics_process(float delta);
-    void area_entered(Area2D *area);
+    void area_entered(Area2D *body);
 
 private:
     void Move(float delta);

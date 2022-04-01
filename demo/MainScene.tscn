@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://bin/GameManager.gdns" type="Script" id=2]
-[ext_resource path="res://bin/Score.gdns" type="Script" id=3]
+[ext_resource path="res://HaveFun.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 75
+font_data = ExtResource( 3 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
@@ -18,8 +22,6 @@ margin_top = 15.0
 margin_right = 173.0
 margin_bottom = 51.0
 text = "Score: null"
-uppercase = true
-script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -28,5 +30,29 @@ __meta__ = {
 position = Vector2( 529, 571 )
 moveSpeed = 200.0
 
-[connection signal="ScoreChanged" from="." to="ParallaxBackground/Label" method="_ScoreChanged"]
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
+
+[node name="Panel" type="Panel" parent="ParallaxBackground2"]
+visible = false
+margin_left = 285.163
+margin_top = 120.735
+margin_right = 727.163
+margin_bottom = 334.735
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ParallaxBackground2/Panel"]
+margin_left = 38.0
+margin_top = 13.0
+margin_right = 415.0
+margin_bottom = 167.0
+custom_fonts/font = SubResource( 1 )
+text = "You win!"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="hit" from="Player" to="." method="_on_Player_hit"]

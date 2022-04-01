@@ -9,9 +9,12 @@
 #include <Node2D.hpp>
 #include <Sprite.hpp>
 #include <ResourceLoader.hpp>
+#include <Panel.hpp>
 #include <Label.hpp>
 #include <PackedScene.hpp>
 #include <Area2D.hpp>
+#include <Variant>
+#include <string>
 
 using namespace godot;
 
@@ -29,7 +32,7 @@ public:
     void _ready();
     void _process(float delta);
     void _physics_process(float delta);
-    void _on_Player_hit(Area2D *area);
+    void _on_Player_hit(Area2D *body);
 
 
 private:
@@ -38,6 +41,8 @@ private:
     int score = 0;
     Ref<PackedScene> enemyInstance;
     std::vector<Node2D*> enimList;
+    Label* _scoreLabel;
+    Panel* winScreen;
 };
 
 #endif

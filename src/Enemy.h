@@ -8,6 +8,7 @@
 #include <Control.hpp>
 #include <Viewport.hpp>
 #include <RandomNumberGenerator.hpp>
+#include <Label.hpp>
 
 using namespace godot;
 
@@ -43,7 +44,6 @@ private:
     float bottomOffset = 25.0f;
     float minSpeed = 0.1f;
     RandomNumberGenerator* random;
-
     bool firstFrame = true;
 };
 

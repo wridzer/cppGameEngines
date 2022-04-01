@@ -4,7 +4,7 @@
 [ext_resource path="res://bin/Enemy.gdns" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 805, 750 )
+extents = Vector2( 815, 750 )
 
 [node name="Enemy" type="Node2D"]
 scale = Vector2( 0.1, 0.1 )
@@ -16,8 +16,9 @@ fallSpeed = 50.0
 texture = ExtResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="Sprite"]
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/Area2D"]
-position = Vector2( -15, -10.0001 )
+position = Vector2( -4.99996, -9.99998 )
 scale = Vector2( 0.999999, 0.999999 )
 shape = SubResource( 1 )
