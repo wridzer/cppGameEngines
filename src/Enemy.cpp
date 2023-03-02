@@ -9,6 +9,8 @@ void Enemy::_register_methods(){
     register_property("fallSpeed", &Enemy::maxFallSpeed, 25.0f);
     register_property("minfallSpeed", &Enemy::minFallSpeed, 25.0f);
     register_property("bottomOffset", &Enemy::bottomOffset, 50.0f);
+    
+    register_signal<Enemy>("dropped");
 }
 
 Enemy::Enemy() 
@@ -28,6 +30,7 @@ void Enemy::_init(){
 void Enemy::_ready(){
     random = RandomNumberGenerator::_new();
     RandomizeStart();
+    //add_user_signal("dropped");
 }
 
 void Enemy::_process(float delta){
@@ -54,6 +57,7 @@ void Enemy::Move(float delta) {
 }
 
 void Enemy::BorderCheck() {
+    // Check if hitting sides of the screen
     if (position.x > get_viewport()->get_size().x)
     {
         velocityX = velocityX *-1;
@@ -63,6 +67,12 @@ void Enemy::BorderCheck() {
     {
         velocityX = velocityX *-1;
         moveSpeed = moveSpeed *-1;
+    }
+    // Check if below screen
+    if(position.y > get_viewport()->get_size().y + bottomOffset)
+    {
+        emit_signal("dropped");
+        this->queue_free();
     }
 }
 

@@ -13,7 +13,6 @@
 #include <Label.hpp>
 #include <PackedScene.hpp>
 #include <Area2D.hpp>
-#include <Variant>
 #include <string>
 
 using namespace godot;
@@ -33,12 +32,15 @@ public:
     void _process(float delta);
     void _physics_process(float delta);
     void _on_Player_hit(Area2D *body);
+    void _on_Enemy_dropped();
+    //void KeepScore(int amount);
 
 
 private:
-    int enemyCounter;
     int enimNumber = 5;
     int score = 0;
+    std::string scoreText = "Score: WAIT THIS IS BROKEN!?!?!?!?";
+    //godot::String godotString;
     Ref<PackedScene> enemyInstance;
     std::vector<Node2D*> enimList;
     Label* _scoreLabel;
