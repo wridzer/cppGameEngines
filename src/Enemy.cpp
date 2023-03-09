@@ -4,6 +4,7 @@ void Enemy::_register_methods(){
     register_method("_ready", &Enemy::_ready);
     register_method("_process", &Enemy::_process);
     register_method("_physics_process", &Enemy::_physics_process);
+    register_method("_on_game_end", &Enemy::_on_game_end);
 
     register_property("moveSpeed", &Enemy::maxMoveSpeed, 25.0f);
     register_property("fallSpeed", &Enemy::maxFallSpeed, 25.0f);
@@ -39,6 +40,10 @@ void Enemy::_process(float delta){
 
 void Enemy::_physics_process(float delta){
     Move(delta);
+}
+
+void Enemy::_on_game_end(){
+    this->queue_free();
 }
 
 void Enemy::Move(float delta) {

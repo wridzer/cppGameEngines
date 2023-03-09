@@ -28,6 +28,7 @@ __meta__ = {
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 529, 571 )
+rotation = 0.0167671
 moveSpeed = 500.0
 
 [node name="ParallaxBackground2" type="ParallaxBackground" parent="."]

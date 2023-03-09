@@ -9,8 +9,9 @@ void GameManager::_register_methods(){
 
     register_property<GameManager, Ref<PackedScene>>("enemyInstance", &GameManager::enemyInstance, nullptr);
     register_property("enimNumber", &GameManager::enimNumber, 5);
+    register_property("ScoreToWin", &GameManager::ScoreToWin, 10);
     
-    register_signal<GameManager>("ScoreChanged", Dictionary());
+    register_signal<GameManager>("GameEnded");
 }
 
 void GameManager::_init(){
@@ -18,19 +19,18 @@ void GameManager::_init(){
 }
 
 void GameManager::_ready(){
-    enimList = std::vector<Node2D*>();
     add_user_signal("dropped");
+    add_user_signal("GameEnded");
     for(int i = 0; i < enimNumber; i++){
         auto enemy = static_cast<Node2D*>(enemyInstance->instance());
         call_deferred("add_child", enemy);
         enemy->connect("dropped", this, "_on_Enemy_dropped");
+        connect("GameEnded", enemy, "_on_game_end");
     }
     
     _scoreLabel = (Label*) get_node("ParallaxBackground/Label");
     winScreen = (Panel*) get_node("ParallaxBackground2/Panel");
-
-    //scoreText = "Score: " + std::to_string(score);
-    //_scoreLabel->set_text(godot::String(scoreText.c_str()));
+    UpdateScore();
 }
 
 void GameManager::EnemyDeleted(){
@@ -38,38 +38,35 @@ void GameManager::EnemyDeleted(){
     enemy->get_signal_connection_list("dropped").push_back(&GameManager::_on_Enemy_dropped);
     call_deferred("add_child", enemy);
     enemy->connect("dropped", this, "_on_Enemy_dropped");
+    connect("GameEnded", enemy, "_on_game_end");
 }
 
 void GameManager::_on_Enemy_dropped(){
-    //score - 1
     score--;
     EnemyDeleted();
+    UpdateScore();
 }
 
 void GameManager::_on_Player_hit(Area2D *area){
     area->get_parent()->get_parent()->queue_free();
     EnemyDeleted();
     score++;
-    //KeepScore(1);
+    UpdateScore();
 }
 
-//void GameManager::KeepScore(int amount) {
-//    score = score + amount;
-//    scoreText = "Score: " + std::to_string(score);
-//    //godotString = String(scoreText.c_str());
-//    //_scoreLabel->set_text(godotString);
-//    //delete &tempGodotString;
-//}
+void GameManager::UpdateScore(){
+    godot::String scoreText = "Score: " + String::num_int64(score);
+    _scoreLabel->set_text(scoreText);
+    // End Game
+    if (score >= ScoreToWin) {
+        winScreen->set_visible(true);
+        emit_signal("GameEnded");
+    }
+}
+
 
 void GameManager::_process(float delta){
 
-    godot::String scoreText = "Score: " + String::num_int64(score);
-    //Godot::print(scoreText);
-    _scoreLabel->set_text(scoreText);
-    if (score > 15) {
-        //turn on winscreen
-        winScreen->set_visible(true);
-    }
 }
 
 void GameManager::_physics_process(float delta){
@@ -78,7 +75,7 @@ void GameManager::_physics_process(float delta){
 
 
 GameManager::GameManager()
-    : score(0), scoreText("") {
+    : score(0), scoreText(""){
 }
 
 GameManager::~GameManager(){

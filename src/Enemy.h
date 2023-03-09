@@ -30,6 +30,8 @@ public:
     void _process(float delta);
     void _physics_process(float delta);
 
+    void _on_game_end();
+
 private:
     Vector2 position;
     float velocityX;

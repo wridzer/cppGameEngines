@@ -33,18 +33,17 @@ public:
     void _physics_process(float delta);
     void _on_Player_hit(Area2D *body);
     void _on_Enemy_dropped();
-    //void KeepScore(int amount);
+    void UpdateScore();
 
 
 private:
     int enimNumber = 5;
     int score = 0;
     std::string scoreText = "Score: WAIT THIS IS BROKEN!?!?!?!?";
-    //godot::String godotString;
     Ref<PackedScene> enemyInstance;
-    std::vector<Node2D*> enimList;
     Label* _scoreLabel;
     Panel* winScreen;
+    int ScoreToWin = 10;
 };
 
 #endif
